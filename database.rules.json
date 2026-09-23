@@ -1,0 +1,67 @@
+{
+  "rules": {
+    "users": {
+      "$uid": {
+        ".read": "auth != null && (auth.uid === $uid || root.child('users').child(auth.uid).child('isAdmin').val() === true)",
+        ".write": "auth != null && (auth.uid === $uid || root.child('users').child(auth.uid).child('isAdmin').val() === true)",
+        "isAdmin": {
+          ".validate": "root.child('users').child(auth.uid).child('isAdmin').val() === true || (!data.exists() && newData.val() === false)"
+        },
+        "role": {
+          ".validate": "root.child('users').child(auth.uid).child('isAdmin').val() === true || (!data.exists() && newData.val() === 'user')"
+        },
+        "balance": {
+          ".validate": "newData.isNumber() && newData.val() >= 0"
+        },
+        "safeBalance": {
+          ".validate": "newData.isNumber() && newData.val() >= 0"
+        },
+        "savedWithdrawAccounts": {
+          ".validate": "newData.hasChildren() ? newData.val().length <= 3 : true"
+        }
+      }
+    },
+    "bets": {
+      ".read": "auth != null",
+      "$betId": {
+        ".write": "auth != null && (!data.exists() || data.child('uid').val() === auth.uid || root.child('users').child(auth.uid).child('isAdmin').val() === true)"
+      }
+    },
+    "deposits": {
+      ".read": "auth != null",
+      "$depositId": {
+        ".write": "auth != null && ((!data.exists() && newData.child('uid').val() === auth.uid && newData.child('status').val() === 'pending') || (data.exists() && data.child('uid').val() === auth.uid && newData.child('status').val() === 'pending') || root.child('users').child(auth.uid).child('isAdmin').val() === true)"
+      }
+    },
+    "withdrawals": {
+      ".read": "auth != null",
+      "$withdrawId": {
+        ".write": "auth != null && ((!data.exists() && newData.child('uid').val() === auth.uid && newData.child('status').val() === 'pending') || (data.exists() && data.child('uid').val() === auth.uid && newData.child('status').val() === 'pending') || root.child('users').child(auth.uid).child('isAdmin').val() === true)"
+      }
+    },
+    "settings": {
+      ".read": true,
+      ".write": "auth != null && root.child('users').child(auth.uid).child('isAdmin').val() === true"
+    },
+    "banners": {
+      ".read": true,
+      ".write": "auth != null && root.child('users').child(auth.uid).child('isAdmin').val() === true"
+    },
+    "games": {
+      ".read": true,
+      ".write": "auth != null && root.child('users').child(auth.uid).child('isAdmin').val() === true"
+    },
+    "giftCodes": {
+      ".read": "auth != null",
+      ".write": "auth != null && root.child('users').child(auth.uid).child('isAdmin').val() === true"
+    },
+    "wingo": {
+      ".read": true,
+      ".write": "auth != null && root.child('users').child(auth.uid).child('isAdmin').val() === true"
+    },
+    "announcements": {
+      ".read": true,
+      ".write": "auth != null && root.child('users').child(auth.uid).child('isAdmin').val() === true"
+    }
+  }
+}

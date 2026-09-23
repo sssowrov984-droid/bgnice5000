@@ -1,0 +1,8 @@
+{
+  "name": "BGNICE",
+  "description": "BGNICE - Premier Online Gaming & Entertainment Platform with 24/7 Fast Payouts via Nagad, bKash & Rocket.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
